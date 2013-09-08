@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+    <bean id="autoReloadStrategy" class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"></bean>
+    
+    <bean id="commonProperties" class="org.apache.commons.configuration.PropertiesConfiguration">
+        <property name="reloadingStrategy" ref="autoReloadStrategy"/>
+        <constructor-arg value="common.properties"/>
+    </bean>
+    
+    <bean id="variablesService" class="com.fluxtream.services.impl.VariablesServiceImpl" />
+    
+	<bean name="variablesDao" class="com.fluxtream.test.services.variables.VariablesDaoImplTest"/>
+	<bean name="unitsDao" class="com.fluxtream.test.services.variables.UnitsDaoImplTest"/>
+	<bean name="configuration" class="com.fluxtream.Configuration">
+	    <property name="commonProperties" ref="commonProperties"/>
+	</bean>
+</beans>

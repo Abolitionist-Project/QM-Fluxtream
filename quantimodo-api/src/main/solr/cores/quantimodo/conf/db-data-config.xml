@@ -1,0 +1,36 @@
+<dataConfig>
+	<!-- to use p6spy, copy ../p6spy/log4j.properties and ../p6spy/spy.properties 
+		files to solr classpath -->
+	<!-- com.p6spy.engine.spy.P6SpyDriver -->
+	<!-- com.mysql.jdbc.Driver -->
+	<dataSource driver="com.mysql.jdbc.Driver"
+		url="jdbc:mysql:///quantimodo?characterEncoding=utf-8&amp;connectionCollation=utf8_bin"
+		user="quantimodo" password="quantimodo" />
+	<document>
+		<entity name="case" pk="id" transformer="RegexTransformer"
+			query="SELECT
+					d.`id`,
+					d.`data_owner` AS guestId,
+					d.`value`,
+					d.`start_time_utc`,
+					d.`duration_in_seconds`,
+					c.`name` AS categoryName
+				FROM `qm_qs_data` AS d, `qm_variables` AS v, `qm_variable_categories` AS c
+				WHERE v.`id` = d.`variable`
+					AND c.`id` = v.`variable_category`
+					AND ('${dataimporter.request.clean}' != 'false' 
+					OR `start_time_utc` > '${dataimporter.last_index_time}')">
+			<!-- <field column="followUpCase_Case_ID_OID" name="ignored" /> -->
+			<!-- <field column="owner_Analyst_ID_OID" name="ignored" /> -->
+			<!-- <entity name="followUpCase"
+				query="SELECT `caseId` AS `followUpCase` FROM `Case` WHERE `Case_ID` = '${case.followUpCase_Case_ID_OID}'" /> -->
+			<!-- <entity name="analyst"
+				query="SELECT `userInfo_UserInfo_ID_OID` FROM `Analyst` WHERE `Analyst_ID` = '${case.owner_Analyst_ID_OID}'">
+				<field column="userInfo_UserInfo_ID_OID" name="ignored" />
+				<entity name="owner"
+					query="SELECT `username` AS `owner` FROM `UserInfo` WHERE `UserInfo_ID` = '${analyst.userInfo_UserInfo_ID_OID}'">
+				</entity>
+			</entity> -->
+		</entity>
+	</document>
+</dataConfig>

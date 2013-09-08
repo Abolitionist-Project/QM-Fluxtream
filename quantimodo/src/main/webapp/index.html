@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Quantimodo Wordpress Simulator</title>
+		<link rel="stylesheet" type="text/css" href="welcome.css"/>
+		<script type="text/javascript" src="angular.min.js"></script>
+		<script type="text/javascript" src="welcome.js"></script>
+	</head>
+	<body ng-app ng-controller="welcomeCtrl">
+		<h1>Quantimodo Wordpress Simulator</h1>
+		<div>
+			<h2>Wordpress userId</h2>
+			<label>
+				<input name="authenticated" type="radio" checked="checked" value="anonymous" ng-model="identity" ng-click="logout();"/>
+				<button>Become anonymous</button>
+			</label>
+			<label>
+				<input name="authenticated" type="radio" value="authenticated" ng-model="identity" ng-click="login();" />
+				<button>Authenticate</button> as user id:
+				<input ng-model="userId" class="input-text" ng-class="userIdCssClass" ng-change="login();" />
+				Note: it requires <button ng-click="logoutApi();">logout from API</button> after userId changed.
+			</label>
+		</div>
+		<div ng-show="identity == 'anonymous'">
+			<h2>Anonymous</h2>
+			<p>
+				API session timeout is one minute.
+				Wordpress (either php or javascript) should 
+				<button ng-click="logoutApi();">logout from API</button> 
+				on user logout from Wordpress.
+				i.e. by sending an HTTP request,
+				<code>GET /api/logout/</code>
+			</p>
+		</div>
+		<div>
+			<h2>Quantimodo API</h2>
+			<p>Demonstrated above are the two APIs of querying current user, and logout.</p>
+			<p>
+				To see a list of APIs, please follow the link here,
+				<a href="api/">Quantimodo API</a>.
+			</p>
+		</div>
+		<div>
+			<h2>Demos</h2>
+			<p>Some of the demos here requires login.</p>
+			<p>
+			</p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- <consolePlugin /> -->
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern><![CDATA[%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %message%n]]></Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="testlog" class="ch.qos.logback.core.FileAppender">
+		<File><![CDATA[${user.home}/com.quantimodo.api.server/log/test.log]]></File>
+		<!-- <Encoding>UTF-8</Encoding> -->
+		<Append>false</Append>
+		<encoder>
+			<Pattern><![CDATA[%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %message%n]]></Pattern>
+		</encoder>
+	</appender>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="console" />
+		<appender-ref ref="testlog" />
+	</root>
+
+	<logger name="com.quantimodo.api.server" level="TRACE" />
+	<!-- <logger name="org.springframework.web" level="TRACE" /> -->
+	<!-- <logger name="org.activiti" level="INFO" /> -->
+	<!-- <logger name="org.apache.ibatis" level="INFO" /> -->
+
+</configuration>

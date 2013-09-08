@@ -1,0 +1,41 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- XXX loginUrlAuthenticationEntryPoint is required to allow forward -->
+	<http use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+
+		<intercept-url pattern="/401/**" access="permitAll" />
+
+		<!-- <intercept-url pattern="/user/**" access="permitAll" /> -->
+
+		<intercept-url pattern="/switch-user" access="hasRole('ADMIN')" />
+		<!-- <intercept-url pattern="/exit-user" access="hasRole('ADMIN')" /> -->
+
+		<intercept-url pattern="/index.html" access="permitAll" />
+		<intercept-url pattern="/welcome.js" access="permitAll" />
+		<intercept-url pattern="/welcome.css" access="permitAll" />
+		<intercept-url pattern="/quantimodo-api.js" access="permitAll" />
+		<intercept-url pattern="/show-api.js" access="permitAll" />
+		
+		<!-- default -->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+
+		<logout logout-url="/logout/" logout-success-url="/401/" />
+		
+		<session-management session-authentication-strategy-ref="nullAuthenticatedSessionStrategy" />
+
+		<custom-filter position="PRE_AUTH_FILTER" ref="wordpressCookieAuthenticationFilter" />
+
+	</http>
+
+	<authentication-manager alias="authenticationManager" erase-credentials="false">
+		<authentication-provider ref="wordpressCookieAuthenticationProvider" />
+	</authentication-manager>
+
+</beans:beans>

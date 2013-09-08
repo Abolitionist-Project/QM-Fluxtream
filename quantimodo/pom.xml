@@ -1,0 +1,256 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.quantimodo.wordpress-simulator</groupId>
+	<artifactId>quantimodo-wordpress-simulator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>war</packaging>
+
+	<name>quantimodo-wordpress-simulator</name>
+
+	<description></description>
+
+	<url>http://quantimodo.com/</url>
+
+	<developers>
+		<developer>
+			<id>frank</id>
+			<name>Frank</name>
+			<email>frank@quantimodo.com</email>
+			<timezone>GMT+8</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/mikepsinn/Quantimodo</connection>
+	</scm>
+
+	<organization>
+		<name>Quantimodo</name>
+		<url>http://quantimodo.com/</url>
+	</organization>
+
+	<build>
+		<defaultGoal>package</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>applicationContext.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>applicationContext.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<finalName>ROOT</finalName>
+		<plugins>
+
+			<!-- phase: validate -->
+			<plugin>
+				<artifactId>maven-help-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>active-profiles</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- phase: compile -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- phase: process-classes -->
+
+			<!-- phase: test -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<version>2.13</version> <configuration> <test>TestAll</test> </configuration> 
+				</plugin> -->
+
+			<!-- phase: prepare-package -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+
+					<!-- <format>{0}</format> <items> <item></item> </items> -->
+
+					<!-- <doUpdate>true</doUpdate> -->
+
+					<!-- <scmDirectory>..</scmDirectory> -->
+					<!-- <doCheck>true</doCheck> -->
+					<doCheck>${maven.buildNumber.doCheck}</doCheck>
+
+					<shortRevisionLength>7</shortRevisionLength>
+
+				</configuration>
+			</plugin>
+
+			<!-- phase: package -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+						</manifestEntries>
+					</archive>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>WEB-INF/web.xml</include>
+								<include>WEB-INF/servlet-context.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+				<executions>
+					<execution>
+						<!-- XXX add war:exploded to eclipse project Properties > Maven > Lifecycle 
+							Mapping > Goals to invoke after project clean and Goals to invoke on resource 
+							changes -->
+						<!-- launch with eclipse a tomcat server from /target/wormhole by modify 
+							the file /.settings/org.eclipse.wst.common.component: <wb-resource deploy-path="/" 
+							source-path="/target/wormhole"/> -->
+						<!-- <phase>initialize</phase> -->
+						<!-- <goals> <goal>exploded</goal> </goals> -->
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<!-- phase: package -->
+							<!-- <goal>jar-no-fork</goal> -->
+							<!-- phase: package -->
+							<!-- <goal>test-jar-no-fork</goal> -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<!-- <goal>jar</goal> -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/dist.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- phase: pre-integration-test -->
+
+			<!-- phase: invoked manually -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>run-war-only</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+
+					<!-- <port>8080</port> -->
+					<!-- <ajpPort>9005</ajpPort> -->
+					<!-- <httpsPort>8443</httpsPort> -->
+
+					<!-- https://issues.apache.org/jira/browse/MTOMCAT-175 -->
+					<warDirectory>${project.build.directory}/${project.build.finalName}</warDirectory>
+
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- <dependency> <groupId>javax.servlet.jsp</groupId> <artifactId>jsp-api</artifactId> 
+			<version>2.1</version> <scope>provided</scope> </dependency> -->
+
+		<!-- only for resource mapping at the moment. see servlet-context.xml -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<properties>
+
+		<context>/</context>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<spring.version>3.0.6.RELEASE</spring.version>
+
+	</properties>
+
+</project>

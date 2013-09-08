@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Quantimodo API</title>
+		<link rel="stylesheet" type="text/css" href="welcome.css"/>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script type="text/javascript" src="welcome.js"></script>
+		<script type="text/javascript" src="quantimodo-api.js"></script>
+	</head>
+	<body ng-app ng-controller="welcomeCtrl">
+		<h1>Quantimodo API</h1>
+		<p>
+			For a list of available APIs, please read 
+			<a href="https://docs.google.com/document/d/12kHhBPUgjp43oGCdi-xxN_qXKMC9OTKE8ZFs-Ka1IaU/edit#">Quantimodo API Specifications - Google Drive</a>
+		</p>
+		<div ng-show="identity == 'anonymous'">
+			<h2>Anonymous</h2>
+			<p>
+				You need to login. Please go <a href="/">here</a>.
+			</p>
+		</div>
+		<div ng-hide="identity == 'anonymous'">
+			<h2>Authenticated</h2>
+			<p>userId = {{userID}}</p>
+			<p>
+				You can login as another user here, <a href="/">here</a>.
+			</p>
+			<p>The following APIs are available.</p>
+			<ul>
+				<li>
+					<a href="#user-information">2.2 User information</a>
+				</li>
+				<li>
+					<a href="#logout">2.3 API logout</a>
+				</li>
+				<li>
+					<a href="#list-records">2.4 List all available records for a given variable ID</a>
+				</li>
+				<li>
+					<a href="#list-records2">2.5 List all available records from startTime to now for a given variable ID</a>
+				</li>
+				<li>
+					<a href="#list-records3">2.6 List all available records from startTime to endTime for a given variable ID</a>
+				</li>
+				<li>
+					<a href="#list-categories-input">2.8 List user input data categories</a>
+				</li>
+				<li>
+					<a href="#list-categories-output">2.9 List user output data categories</a>
+				</li>
+				<li>
+					<a href="#find-variable-settings">3.1 Find variable settings (legacy)</a>
+				</li>
+				<li>
+					<a href="#list-categories">3.2 List User Data Categories (legacy)</a>
+				</li>
+				<li>
+					<a href="#list-aggregated-variables">3.3 List Aggregated Variables (legacy)</a>
+				</li>
+				<li>
+					<a href="#list-variable-values">3.4 List Variable Values</a>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<h2 id="user-information">2.2 User information</h2>
+			<p>Detect if user is authenticated.</p>
+			<form action="user/" target="_blank">
+				<div>
+					<input type="submit"/>
+				</div>
+			</form>
+			<hr />
+		</div>
+		<div>
+			<h2 id="logout">2.3 API logout</h2>
+			<form action="logout/" target="_blank">
+				<div>
+					<input type="submit"/>
+				</div>
+			</form>
+			<hr />
+		</div>
+		<div id="list-records" ng-hide="identity == 'anonymous'">
+			<h2>2.4 List all available records for a given variable ID</h2>
+			<form action="records/" target="_blank">
+				<div>
+					<label>
+						Variable ID:
+						<input name="variableId" class="input-text" ng-model="variableId" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Offset:
+						<input name="offset" class="input-text" ng-model="offset" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Length:
+						<input name="length" class="input-text" ng-model="length" />
+					</label>
+				</div>
+				<div>
+					<input type="submit"/>
+				</div>
+			</form>
+			<hr />
+		</div>
+		<div id="list-records2" ng-hide="identity == 'anonymous'">
+			<h2>2.5 List all available records from startTime to now for a given variable ID</h2>
+			<form action="records/" target="_blank">
+				<div>
+					<label>
+						Variable ID:
+						<input name="variableId" class="input-text" ng-model="variableId" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Start time:
+						<input name="startTime" class="input-text" ng-model="startTime" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Offset:
+						<input name="offset" class="input-text" ng-model="offset" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Length:
+						<input name="length" class="input-text" ng-model="length" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-records3" ng-hide="identity == 'anonymous'">
+			<h2>2.6 List all available records from startTime to endTime for a given variable ID</h2>
+			<form action="records/" target="_blank">
+				<div>
+					<label>
+						Variable ID:
+						<input name="variableId" class="input-text" ng-model="variableId" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Start time:
+						<input name="startTime" class="input-text" ng-model="startTime" />
+					</label>
+				</div>
+				<div>
+					<label>
+						End time:
+						<input name="endTime" class="input-text" ng-model="endTime" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Offset:
+						<input name="offset" class="input-text" ng-model="offset" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Length:
+						<input name="length" class="input-text" ng-model="length" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-categories-input" ng-hide="identity == 'anonymous'">
+			<h2>2.8 List user input data categories</h2>
+			<form action="categories/input/" target="_blank">
+				<div>
+					<label>
+						Offset:
+						<input name="offset" class="input-text" ng-model="offset" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Length:
+						<input name="length" class="input-text" ng-model="length" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-categories-output" ng-hide="identity == 'anonymous'">
+			<h2>2.9 List user output data categories</h2>
+			<form action="categories/output/" target="_blank">
+				<div>
+					<label>
+						Offset:
+						<input name="offset" class="input-text" ng-model="offset" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Length:
+						<input name="length" class="input-text" ng-model="length" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="find-variable-settings" ng-hide="identity == 'anonymous'">
+			<h2>3.1 Find variable settings (legacy)</h2>
+			<form action="analyze/variables_settings/get" target="_blank">
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-categories" ng-hide="identity == 'anonymous'">
+			<h2>3.2 List User Data Categories (legacy)</h2>
+			<form action="categories" target="_blank">
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-aggregated-variables" ng-hide="identity == 'anonymous'">
+			<h2>3.3 List Aggregated Variables (legacy)</h2>
+			<form action="variables/aggregated" target="_blank">
+				<div>
+					<label>
+						Behaviour (input, output):
+						<input name="behaviour" class="input-text" ng-model="behaviour" />
+					</label>
+					<p>Allowed values are input and output. Categories with the given behaviour will be excluded.</p>
+				</div>
+				<div>
+					<label>
+						Category ID:
+						<input name="category_id" class="input-text" ng-model="categoryID" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+		<div id="list-variable-values" ng-hide="identity == 'anonymous'">
+			<h2>3.4 List Variable Values (legacy)</h2>
+			<form action="variables/values" target="_blank">
+				<div>
+					<label>
+						Variable type (AGGREGATED, SINGLE?):
+						<input name="var_type" class="input-text" ng-model="varType" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Variable ID:
+						<input name="var_id" class="input-text" ng-model="variableId" />
+					</label>
+				</div>
+				<div>
+					<label>
+						From (date, e.g. Jul 2, 2013 or leave it empty):
+						<input name="from" class="input-text" ng-model="fromDate" />
+					</label>
+				</div>
+				<div>
+					<label>
+						To (date, e.g. Jul 2, 2013 or leave it empty):
+						<input name="to" class="input-text" ng-model="toDate" />
+					</label>
+				</div>
+				<div>
+					<label>
+						Grouping:
+						<input name="grouping" class="input-text" ng-model="grouping" />
+					</label>
+				</div>
+				<input type="submit"/>
+			</form>
+			<hr />
+		</div>
+	</body>
+</html>

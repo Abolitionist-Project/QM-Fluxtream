@@ -1,0 +1,3 @@
+Set the JVM argument, solr.solr.home, as the path of the directory (SOLR_HOME) of this file
+copy mysql connector jar file in the sub directory of lib
+copy the directory of apache-solr-3.5.0/dist (and optionally apache-solr-3.5.0/contrib) in SOLR_HOME

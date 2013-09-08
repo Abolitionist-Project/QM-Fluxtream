@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="daily"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern><![CDATA[${user.home}/com.quantimodo.api.server/log/%d{yyyy-MM-dd}.log]]></FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern><![CDATA[%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %message%n]]></Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern><![CDATA[${user.home}/com.quantimodo.api.server/log/%d{yyyy-MM-dd}.error.log]]></FileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<Pattern><![CDATA[++++++++%n[context]%contextName%n[logger]%logger%n[level]%level%n[message]%n%message%n%n[exception]%n%exception%n[caller]%n%caller%n[thread]%thread%n[mdc]%mdc%n%n[marker]%n%marker%n[number of milliseconds elapsed since the start of the application]%n%relative%n[date]%n%date{HH:mm:ss.SSS}%n========%n]]></Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="daily" />
+		<appender-ref ref="error" />
+	</root>
+
+	<logger name="com.quantimodo.api" level="DEBUG" />
+
+</configuration>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Quantimodo API</title>
+		<link rel="stylesheet" type="text/css" href="welcome.css"/>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script type="text/javascript" src="welcome.js"></script>
+		<script type="text/javascript" src="quantimodo-api.js"></script>
+		<script type="text/javascript" src="show-api.js"></script>
+	</head>
+	<body>
+		<h1>Welcome to the Quantimodo REST API!</h1>
+		<rest-method-toc></rest-method-toc>
+		<rest-method method="GET" url="/api/measurements">
+			<parameter-list>
+				<parameter name="variableName" example="Run distance">search for measurements of this variable</parameter>
+				<parameter name="startTime">search for measurements starting from this epoch time</parameter>
+				<parameter name="endTime">search for measurements up until this epoch time</parameter>
+			</parameter-list>
+		</rest-method>
+		
+		<rest-method method="POST" url="/api/measuments">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="source" type="string">The name of the source that recorded the measurement</json-parameter>
+						<json-parameter name="variable" type="string">The name of the variable for which data is being recorded</json-parameter>
+						<json-parameter name="combinationOperation" type="string" values="SUM, MEAN">How to combine measurements when zooming out</json-parameter>
+						<json-parameter name="timestamp" type="timestamp">The time the measurement was recorded</json-parameter>
+						<json-parameter name="value" type="number">The value recorded</json-parameter>
+						<json-parameter name="unit" type="string">The unit the value is in</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/measurementSources"></rest-method>
+		
+		<rest-method method="POST" url="/api/measumentSources">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="name" type="string">The name of this source that records measurements</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/units">
+			<parameter-list>
+				<parameter name="unitName" example="kilogram">search for the unit with this name</parameter>
+				<parameter name="abbreviatedUnitName" example="kg">search for the unit with this abbreviated name</parameter>
+				<parameter name="categoryName" example="distance">search for all units in this category</parameter>
+			</parameter-list>
+		</rest-method>
+		
+		<rest-method method="POST" url="/api/units">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="name" type="string">The name of this unit</json-parameter>
+						<json-parameter name="abbreviatedName" type="string">The abbreviated name of this unit</json-parameter>
+						<json-parameter name="category" type="string">The name of the category this unit belongs to</json-parameter>
+						<json-parameter name="conversionSteps" type="array">
+							<json-array>
+								<json-object>
+									<json-parameter name="operation" type="string" values="ADD, MULTIPLY">The operation to perform during this step</json-parameter>
+									<json-parameter name="value" type="number">The operand to use with the operation</json-parameter>
+								</json-object>
+							</json-array>
+						</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/unitCategories"></rest-method>
+		
+		<rest-method method="POST" url="/api/measumentSources">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="name" type="string">The name of this unit category</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/variables">
+			<parameter-list>
+				<parameter name="categoryName" example="distance">search for all variables in this category</parameter>
+			</parameter-list>
+		</rest-method>
+		
+		<rest-method method="POST" url="/api/variables">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="name" type="string">The name of this variable</json-parameter>
+						<json-parameter name="category" type="string">The name of the category this variable belongs to</json-parameter>
+						<json-parameter name="unit" type="string">The unit that measurements of this variable will be displayed in by default</json-parameter>
+						<json-parameter name="combinationOperation" type="string" values="SUM, MEAN">How to combine measurements when zooming out</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/variableCategories"></rest-method>
+		
+		<rest-method method="POST" url="/api/variableCategories">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="name" type="string">The name of this variable category</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+		
+		<rest-method method="GET" url="/api/variableUserSettings">
+			<parameter-list>
+				<parameter name="variableName" example="Run distance">search for the settings for the variable with this name</parameter>
+			</parameter-list>
+		</rest-method>
+		
+		<rest-method method="POST" url="/api/variableUserSettings">
+			<request-body>
+				<json-array>
+					<json-object>
+						<json-parameter name="variable" type="string">The name of the variable these settings apply to</json-parameter>
+						<json-parameter name="unit" type="string">The unit to use when displaying measurements in this variable</json-parameter>
+					</json-object>
+				</json-array>
+			</request-body>
+		</rest-method>
+	</body>
+</html>
